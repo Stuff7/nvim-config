@@ -27,6 +27,7 @@ require("vscode").setup({
 })
 vim.api.nvim_create_autocmd('ColorScheme', {
   callback = function ()
+    vim.api.nvim_set_hl(0, "@lsp.type.comment", { fg = "#808080" })
     vim.api.nvim_set_hl(0, "@comment", { fg = "#808080" })
     vim.api.nvim_set_hl(0, "@lsp.mod.mutable", { fg = "#A6ACF6", bold = true })
     vim.api.nvim_set_hl(0, "@lsp.mod.reference", { italic = true })
