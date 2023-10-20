@@ -37,7 +37,7 @@ vim.api.nvim_create_autocmd('ColorScheme', {
     vim.api.nvim_set_hl(0, "@lsp.type.selfTypeKeyword", { fg = c.vscBlue })
     vim.api.nvim_set_hl(0, "@lsp.type.decorator", { fg = "#A596B9" })
     vim.api.nvim_set_hl(0, "@lsp.type.parameter", { fg = "#C0FED8" })
-    vim.api.nvim_set_hl(0, "@lsp.type.interface", { fg = "#40A940", underdotted = true })
+    vim.api.nvim_set_hl(0, "@lsp.type.interface", { fg = "#40A940", italic = true })
     vim.api.nvim_set_hl(0, "@lsp.type.struct", { fg = "#8EC9B0" })
     vim.api.nvim_set_hl(0, "@lsp.type.enum", { fg = "#00A980" })
     vim.api.nvim_set_hl(0, "@lsp.type.formatSpecifier", { fg = c.vscBlue })
