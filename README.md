@@ -20,8 +20,8 @@ This is a custom Neovim (nvim) configuration designed for personal use.
 
 ### [Wansmer/treesj](https://github.com/kylechui/nvim-surround)
 
-- Toggle Block = <leader>m
+- Toggle Block = "<leader>m"
 
 ### Native neovim
 
-- Uppercase Selection = <Shift>U
+- Uppercase Selection = "<Shift>U"
