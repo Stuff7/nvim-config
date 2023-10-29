@@ -29,7 +29,6 @@ return require("packer").startup(function(use)
   use { "kylechui/nvim-surround", tag = "*" }
   use "cohama/lexima.vim"
   use { "Wansmer/treesj", requires = { "nvim-treesitter/nvim-treesitter" } }
-	-- use {"arzg/vim-rust-syntax-ext", rtp = "after/syntax/rust.vim"}
 
 	-- LSP
 	use {

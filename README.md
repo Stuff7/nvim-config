@@ -15,3 +15,13 @@ This is a custom Neovim (nvim) configuration designed for personal use.
 
 - Consider creating an [.editorconfig](https://editorconfig.org/) file to standardize coding style across projects.
 - For Rust development, create a `rustfmt.toml` in the project's root directory to configure settings such as tab size.
+
+## Cheatsheet
+
+### [Wansmer/treesj](https://github.com/kylechui/nvim-surround)
+
+- Toggle Block = <leader>m
+
+### Native neovim
+
+- Uppercase Selection = <Shift>U

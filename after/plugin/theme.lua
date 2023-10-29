@@ -16,7 +16,11 @@ require("bufferline").setup({
 })
 
 -- File Explorer
-require("nvim-tree").setup()
+require("nvim-tree").setup({
+  diagnostics = {
+    enable = true,
+  }
+})
 
 -- Colorscheme
 require("vscode").setup({
