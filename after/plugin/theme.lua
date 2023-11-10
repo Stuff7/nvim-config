@@ -3,16 +3,16 @@ require("lualine").setup()
 
 -- Tabs
 require("bufferline").setup({
-	options = {
-		offsets = {
-			{
-				filetype = "NvimTree",
-				text = "File Explorer",
-				text_align = "center",
-				separator = true
-			}
-		}
-	}
+  options = {
+    offsets = {
+      {
+        filetype = "NvimTree",
+        text = "File Explorer",
+        text_align = "center",
+        separator = true
+      }
+    }
+  }
 })
 
 -- File Explorer
@@ -24,9 +24,9 @@ require("nvim-tree").setup({
 
 -- Colorscheme
 require("vscode").setup({
-	transparent = true,
-	italic_comments = true,
-	disable_nvimtree_bg = true,
+  transparent = true,
+  italic_comments = true,
+  disable_nvimtree_bg = true,
 })
 local c = {
   blue = "#569CD6",
@@ -53,9 +53,6 @@ vim.api.nvim_create_autocmd('ColorScheme', {
     vim.api.nvim_set_hl(0, "@lsp.typemod.deriveHelper.attribute", { fg = c.palePurple })
     vim.api.nvim_set_hl(0, "@lsp.typemod.variable.constant", { fg = c.accentBlue })
     vim.api.nvim_set_hl(0, "@lsp.typemod.method.mutable", { fg = c.yellow })
-    vim.api.nvim_set_hl(0, "@lsp.typemod.selfKeyword.reference", { fg = c.blue })
-    vim.api.nvim_set_hl(0, "@lsp.typemod.selfKeyword.mutable", { fg = c.pink })
-    vim.api.nvim_set_hl(0, "@lsp.typemod.selfKeyword.declaration", { fg = c.orange })
     vim.api.nvim_set_hl(0, "@lsp.type.selfKeyword", { fg = c.blue })
     vim.api.nvim_set_hl(0, "@lsp.type.selfTypeKeyword", { fg = c.blue })
     vim.api.nvim_set_hl(0, "@lsp.type.decorator", { fg = c.darkPalePurple })
@@ -76,4 +73,6 @@ vim.cmd "filetype plugin indent on"
 -- Code
 require("gitsigns").setup()
 require("nvim-surround").setup() -- ys<delimeter> (surround), ds<delimeter> (delete surround)
-require("treesj").setup() -- <leader>m - Toggle block/inline.
+require("treesj").setup({
+  use_default_keymaps = false,
+})

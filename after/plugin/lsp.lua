@@ -1,10 +1,10 @@
 local lsp_zero = require('lsp-zero')
 
 lsp_zero.set_sign_icons({
-	error = "",
-	warn = "",
-	hint = "",
-	info = ""
+  error = "",
+  warn = "",
+  hint = "",
+  info = ""
 })
 
 lsp_zero.on_attach(function(client, bufnr)
@@ -94,12 +94,12 @@ cmp.setup({
 })
 
 vim.diagnostic.config({
-	virtual_text = true
+  virtual_text = true
 })
 
 vim.keymap.set("n", "<leader>qf", function()
-    vim.lsp.buf.code_action({
-        filter = function(a) return a.isPreferred end,
-        apply = true
-    })
+  vim.lsp.buf.code_action({
+    filter = function(a) return a.isPreferred end,
+    apply = true
+  })
 end, { noremap=true, silent=true })
