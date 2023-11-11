@@ -52,10 +52,22 @@ map({"n", "v"}, "<leader>d", [["_d]])
 map({"n", "v"}, "<leader>y", [["+y]])
 map("n", "<leader>Y", [["+Y]])
 
+-- Indentation
+map("n", "<Tab>", ">><Right><Right>")
+map("n", "<S-Tab>", "<<<Left><Left>")
+map("v", "<Tab>", ">gv")
+map("v", "<S-Tab>", "<gv")
+map("i", "<C-[>", "<C-O><<<Left><Left>")
+map("i", "<C-]>", "<C-O>>><Right><Right>")
+
+map("v", "<leader>ss", [[y:%s///g<Left><Left>]])
+
 -- Insert mode mappings
 map("i", "<C-c>", "<Esc>") -- Switch to normal mode
 map("i", "<C-z>", "<C-O>u") -- Undo last change
+map("i", "<C-y>", "<C-O><C-r>") -- Redo last change
 map("i", "<C-H>", "<C-w>") -- Delete word before cursor (Ctrl-Backspace)
+map("i", "<C-d>", "<Esc><Right>dwi") -- Delete word in front
 map("i", "<C-s>", "<Esc>:w<CR>i<Right>") -- Save changes and stay in insert mode
 
 -- Save / Source
@@ -71,38 +83,41 @@ map("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 map({"n", "x", "o"}, "f", "<Plug>(leap-forward-to)")
 map({"n", "x", "o"}, "F", "<Plug>(leap-backward-to)")
 
--- Tabs
-map("n", "<leader>ck", ":BufferLineCloseRight<CR>") -- Close
-map("n", "<leader>cj", ":BufferLineCloseLeft<CR>") -- Close
+-- Buffers
+map("n", "<C-w>", ":bd<CR>:bn<CR>") -- Close
 map("n", "<C-k>", ":bnext<CR>") -- Navigation
 map("n", "<C-j>", ":bprev<CR>")
 map("n", "<leader>k", "<cmd>lnext<CR>zz")
 map("n", "<leader>j", "<cmd>lprev<CR>zz")
 
+function to_snake_case(input)
+  return string.lower(
+    string.gsub(
+      string.gsub(
+        string.gsub(input, "[A-Z]+", function(match)
+          return #match > 1 and match or "_" .. string.lower(match)
+        end),
+        "[%W_]+",
+        "_"
+      ),
+      "^_",
+      ""
+    )
+  )
+end
+
 function snake_case_selection()
-  -- Save current cursor position
   local cursor = vim.api.nvim_win_get_cursor(0)
-  -- Get the selected text
   local selected_text = vim.fn.getline("'<,'>")
-  -- Convert the text to snake case
-  local snake_case_text = string.gsub(selected_text, "%u", "_%1"):gsub("^_", ""):lower()
-  -- Replace the selected text with the snake case text
+  local snake_case_text = to_snake_case(selected_text)
   vim.fn.setline("'<", snake_case_text)
-  -- Restore cursor position
   vim.api.nvim_win_set_cursor(0, cursor)
 end
 
 -- Casing
-vim.api.nvim_set_keymap('x', '<leader>sc', [[:lua snake_case_selection()<CR>]], { noremap = true, silent = true })
+map('x', '<leader>sc', ":lua snake_case_selection()<CR>")
 
 -- Format
 map("n", "<leader>f", vim.lsp.buf.format)
 map("n", "<leader>f", "ggVG=<C-c>")
 map("n", "<leader>m", ":TSJToggle<CR>")
-
--- Automatically close brackets, parethesis, and quotes
-map("i", "'", "''<left>")
-map("i", "\"", "\"\"<left>")
-map("i", "(", "()<left>")
-map("i", "[", "[]<left>")
-map("i", "{", "{}<left>")

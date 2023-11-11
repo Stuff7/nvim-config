@@ -22,6 +22,7 @@ return require("packer").startup(function(use)
   use "lewis6991/gitsigns.nvim" -- Git gutters
   use "ggandor/leap.nvim" -- Code navigation
   use { "kylechui/nvim-surround", tag = "*" }
+  use "cohama/lexima.vim" -- Auto close brackets
   use { "Wansmer/treesj", requires = { "nvim-treesitter/nvim-treesitter" } } -- Toggle blocks inline/expanded
 
   -- LSP
