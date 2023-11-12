@@ -90,6 +90,9 @@ map("n", "<C-j>", ":bprev<CR>")
 map("n", "<leader>k", "<cmd>lnext<CR>zz")
 map("n", "<leader>j", "<cmd>lprev<CR>zz")
 
+-- Windows
+map("n", "<C-z>", ":wincmd w<CR>")
+
 function to_snake_case(input)
   return string.lower(
     string.gsub(
