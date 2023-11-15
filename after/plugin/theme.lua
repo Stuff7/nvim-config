@@ -39,6 +39,7 @@ local c = {
   palePurple = "#C5B6C0",
   darkPalePurple = "#A596B9",
   paleGreen = "#C0FED8",
+  palePink = "#FBD1FF",
   mediumGreen = "#40A940",
   darkAquamarine = "#2FAF84",
   paleAquamarine = "#93CDB9",
@@ -57,6 +58,7 @@ vim.api.nvim_create_autocmd('ColorScheme', {
     vim.api.nvim_set_hl(0, "@lsp.type.selfTypeKeyword", { fg = c.blue })
     vim.api.nvim_set_hl(0, "@lsp.type.decorator", { fg = c.darkPalePurple })
     vim.api.nvim_set_hl(0, "@lsp.type.parameter", { fg = c.paleGreen })
+    vim.api.nvim_set_hl(0, "@lsp.type.property", { fg = c.palePink })
     vim.api.nvim_set_hl(0, "@lsp.type.interface", { fg = c.orange, italic = true })
     vim.api.nvim_set_hl(0, "@lsp.type.struct", { fg = c.paleAquamarine })
     vim.api.nvim_set_hl(0, "@lsp.type.enum", { fg = c.darkAquamarine })
