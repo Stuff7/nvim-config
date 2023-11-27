@@ -84,7 +84,7 @@ map({"n", "x", "o"}, "f", "<Plug>(leap-forward-to)")
 map({"n", "x", "o"}, "F", "<Plug>(leap-backward-to)")
 
 -- Buffers
-map("n", "<C-w>", ":bd<CR>:bn<CR>") -- Close
+map("n", "<C-w>", ":bd<CR>") -- Close
 map("n", "<C-k>", ":bnext<CR>") -- Navigation
 map("n", "<C-j>", ":bprev<CR>")
 map("n", "<leader>k", "<cmd>lnext<CR>zz")
