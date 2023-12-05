@@ -47,6 +47,7 @@ local c = {
 }
 vim.api.nvim_create_autocmd('ColorScheme', {
   callback = function ()
+    -- Configured looking at Rust
     vim.api.nvim_set_hl(0, "@lsp.type.comment", { fg = c.grey })
     vim.api.nvim_set_hl(0, "@comment", { fg = c.grey })
     vim.api.nvim_set_hl(0, "@lsp.mod.mutable", { fg = c.purple, bold = true })
@@ -66,6 +67,11 @@ vim.api.nvim_create_autocmd('ColorScheme', {
     vim.api.nvim_set_hl(0, "@lsp.type.builtinType", { fg = c.blueGreen })
     vim.api.nvim_set_hl(0, "@lsp.type.macro", { fg = c.blue })
     vim.api.nvim_set_hl(0, "@function.macro", { fg = c.blue })
+    -- Configured looking at C
+    vim.api.nvim_set_hl(0, "@lsp.mod.usedAsMutablePointer", { fg = c.purple, bold = true })
+    vim.api.nvim_set_hl(0, "@lsp.mod.readonly", { fg = c.accentBlue })
+    vim.api.nvim_set_hl(0, "@lsp.type.label", { fg = c.orange, italic = true })
+    vim.api.nvim_set_hl(0, "@lsp.mod.static", { bold = true })
   end
 })
 vim.cmd.colorscheme "vscode"
