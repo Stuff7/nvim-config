@@ -21,7 +21,7 @@ lsp_zero.on_attach(function(client, bufnr)
   vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
   vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
   vim.cmd [[autocmd BufWritePre *.{c,cpp,h,hpp,js,ts,jsx,tsx} lua vim.lsp.buf.format()]]
-  vim.cmd [[autocmd BufWritePre *.{js,ts,jsx,tsx} :EslintFixAll]]
+  vim.cmd [[autocmd BufWritePre *.{js,ts,jsx,tsx,cjs} :EslintFixAll]]
 end)
 
 require('mason').setup({})
@@ -65,6 +65,7 @@ local kind_icons = {
   Operator = "󰆕",
   TypeParameter = "󰅲",
 }
+
 cmp.setup({
   sources = {
     {name = "path"},
@@ -91,7 +92,7 @@ cmp.setup({
     ["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
     ["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
     ["<Tab>"] = cmp.mapping.confirm({ select = true }),
-    ["<C-Space>"] = cmp.mapping.complete(),
+    ["<C-f>"] = cmp.mapping.complete(),
   }),
 })
 
