@@ -18,6 +18,7 @@ vim.opt.termguicolors = true
 vim.opt.scrolloff = 8
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
+vim.opt.cursorline = true
 
 function map(mode, lhs, rhs, opts)
   local options = { noremap = true }
@@ -77,6 +78,10 @@ map("n", "<C-a>", ":so<CR>")
 -- New line in normal mode
 map("n", "<leader>o", ":normal o<CR>")
 map("n", "<leader>O", ":normal O<CR>")
+map("n", "<BS>", "daw")
+map("n", "}", "3<C-e>")
+map("n", "{", "3<C-y>")
+map("i", "jj", "<Esc>")
 
 -- Motions (leap.nvim)
 map("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
