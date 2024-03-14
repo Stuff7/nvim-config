@@ -20,8 +20,8 @@ lsp_zero.on_attach(function(client, bufnr)
   vim.keymap.set("n", "<leader>vrr", vim.lsp.buf.references, opts)
   vim.keymap.set("n", "<leader>vrn", vim.lsp.buf.rename, opts)
   vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, opts)
-  vim.cmd [[autocmd BufWritePre *.{c,cpp,h,hpp,js,ts,jsx,tsx} lua vim.lsp.buf.format()]]
-  vim.cmd [[autocmd BufWritePre *.{js,ts,jsx,tsx,cjs} :EslintFixAll]]
+  vim.cmd [[autocmd BufWritePre *.{c,cpp,h,hpp,js,ts,jsx,tsx,go} lua vim.lsp.buf.format()]]
+  vim.cmd [[autocmd BufWritePre *.{js,ts,jsx,tsx,cjs,vue} :EslintFixAll]]
 end)
 
 require('mason').setup({})

@@ -7,7 +7,7 @@ vim.g.netrw_winsize = 20
 vim.opt.title = true
 vim.opt.nu = true
 vim.opt.relativenumber = true
-vim.opt.tabstop = 2
+vim.opt.tabstop = 8
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.smartindent = true
@@ -18,7 +18,16 @@ vim.opt.termguicolors = true
 vim.opt.scrolloff = 8
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
-vim.opt.cursorline = true
+vim.opt.list = true
+vim.opt.listchars = {
+  eol = '↵',
+  trail = '•',
+  tab = '→ ',
+  nbsp = '·',
+  extends = '»',
+  precedes = '«',
+  space = '·'
+}
 
 function map(mode, lhs, rhs, opts)
   local options = { noremap = true }
@@ -79,9 +88,8 @@ map("n", "<C-a>", ":so<CR>")
 map("n", "<leader>o", ":normal o<CR>")
 map("n", "<leader>O", ":normal O<CR>")
 map("n", "<BS>", "daw")
-map("n", "}", "3<C-e>")
-map("n", "{", "3<C-y>")
-map("i", "jj", "<Esc>")
+map("n", "<C-e>", "3<C-e>")
+map("n", "<C-y>", "3<C-y>")
 
 -- Motions (leap.nvim)
 map("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])

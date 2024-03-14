@@ -80,6 +80,11 @@ vim.api.nvim_create_autocmd('ColorScheme', {
 vim.cmd.colorscheme "vscode"
 vim.cmd.syntax("enable")
 vim.cmd "filetype plugin indent on"
+vim.filetype.add({
+  extension = {
+    templ = "templ",
+  },
+})
 
 -- Code
 require("gitsigns").setup()
