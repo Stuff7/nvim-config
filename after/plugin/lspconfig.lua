@@ -22,14 +22,21 @@ vim.cmd([[
 vim.g.zig_fmt_autosave = 0
 
 local function get_typescript_server_path(root_dir)
-  local global_ts = '/home/[yourusernamehere]/.npm/lib/node_modules/typescript/lib'
+  local home_dir = os.getenv("HOME")
+  if not home_dir then
+    error("HOME environment variable is not set.")
+  end
+
+  local global_ts = util.path.join(home_dir, '.npm/lib/node_modules/typescript/lib')
   local found_ts = ''
+
   local function check_dir(path)
-    found_ts =  util.path.join(path, 'node_modules', 'typescript', 'lib')
+    found_ts = util.path.join(path, 'node_modules', 'typescript', 'lib')
     if util.path.exists(found_ts) then
       return path
     end
   end
+
   if util.search_ancestors(root_dir, check_dir) then
     return found_ts
   else
