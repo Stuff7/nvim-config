@@ -46,6 +46,7 @@ local c = {
   darkAquamarine = "#2FAF84",
   paleAquamarine = "#93CDB9",
   yellow = "#FFFF00",
+  violet = "#C586C0",
 }
 vim.api.nvim_create_autocmd('ColorScheme', {
   callback = function ()
@@ -57,6 +58,7 @@ vim.api.nvim_create_autocmd('ColorScheme', {
     vim.api.nvim_set_hl(0, "@lsp.typemod.deriveHelper.attribute", { fg = c.palePurple })
     vim.api.nvim_set_hl(0, "@lsp.typemod.variable.constant", { fg = c.accentBlue })
     vim.api.nvim_set_hl(0, "@lsp.typemod.method.mutable", { fg = c.yellow })
+    vim.api.nvim_set_hl(0, "@lsp.type.keyword", { fg = c.violet })
     vim.api.nvim_set_hl(0, "@lsp.type.selfKeyword", { fg = c.blue })
     vim.api.nvim_set_hl(0, "@lsp.type.selfTypeKeyword", { fg = c.blue })
     vim.api.nvim_set_hl(0, "@lsp.type.decorator", { fg = c.darkPalePurple })
