@@ -95,8 +95,9 @@ map("n", "<C-y>", "3<C-y>")
 map("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 map({"n", "x", "o"}, "f", "<Plug>(leap-forward-to)")
 map({"n", "x", "o"}, "F", "<Plug>(leap-backward-to)")
-map("n", "<C-n>", ":Gitsigns next_hunk<CR>")
-map("n", "<C-m>", ":Gitsigns prev_hunk<CR>")
+map("n", "<C-n>", ":Gitsigns next_hunk<CR>:Gitsigns preview_hunk<CR>")
+map("n", "<C-m>", ":Gitsigns prev_hunk<CR>:Gitsigns preview_hunk<CR>")
+map("n", "<C-x>", ":Gitsigns reset_hunk<CR>")
 
 -- Buffers
 map("n", "<C-w>", ":bd<CR>") -- Close
@@ -104,9 +105,6 @@ map("n", "<C-k>", ":bnext<CR>") -- Navigation
 map("n", "<C-j>", ":bprev<CR>")
 map("n", "<leader>k", "<cmd>lnext<CR>zz")
 map("n", "<leader>j", "<cmd>lprev<CR>zz")
-
--- Windows
-map("n", "<C-z>", ":wincmd w<CR>")
 
 function to_snake_case(input)
   return string.lower(
