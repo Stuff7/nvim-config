@@ -48,6 +48,7 @@ local c = {
   yellow = "#FFFF00",
   violet = "#C586C0",
 }
+
 vim.api.nvim_create_autocmd('ColorScheme', {
   callback = function ()
     -- Configured looking at Rust
@@ -71,6 +72,7 @@ vim.api.nvim_create_autocmd('ColorScheme', {
     vim.api.nvim_set_hl(0, "@lsp.type.formatSpecifier", { fg = c.blue })
     vim.api.nvim_set_hl(0, "@lsp.type.builtinType", { fg = c.blueGreen })
     vim.api.nvim_set_hl(0, "@lsp.type.macro", { fg = c.blue })
+    vim.api.nvim_set_hl(0, "@lsp.type.procMacro", { fg = c.blue })
     vim.api.nvim_set_hl(0, "@function.macro", { fg = c.blue })
     -- Configured looking at C
     vim.api.nvim_set_hl(0, "@lsp.mod.usedAsMutablePointer", { fg = c.purple, bold = true })
