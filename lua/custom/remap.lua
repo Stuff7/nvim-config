@@ -19,6 +19,7 @@ vim.opt.scrolloff = 8
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.list = true
+vim.opt.linebreak = true
 vim.opt.listchars = {
   eol = '↵',
   trail = '•',
@@ -80,9 +81,9 @@ map("i", "<C-H>", "<C-w>") -- Delete word before cursor (Ctrl-Backspace)
 map("i", "<C-d>", "<Esc><Right>dwi") -- Delete word in front
 map("i", "<C-s>", "<Esc>:w<CR>i<Right>") -- Save changes and stay in insert mode
 
--- Save / Source
+-- Save
 map("n", "<C-s>", ":w<CR>")
-map("n", "<C-a>", ":so<CR>")
+map("n", "<C-a>", "ggVG")
 
 -- New line in normal mode
 map("n", "<leader>o", ":normal o<CR>")
