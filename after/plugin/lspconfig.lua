@@ -13,14 +13,6 @@ lspconfig.rust_analyzer.setup {
 }
 vim.g.rustfmt_autosave = 1
 
--- Make zig use neovim space indentation
-vim.cmd([[
-  autocmd BufWritePre *.zig let save_cursor = getpos(".")
-\ | execute 'normal gg=G'
-\ | call setpos('.', save_cursor)
-]])
-vim.g.zig_fmt_autosave = 0
-
 local function get_typescript_server_path(root_dir)
   local home_dir = os.getenv("HOME")
   if not home_dir then

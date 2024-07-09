@@ -101,38 +101,12 @@ map("n", "<C-m>", ":Gitsigns prev_hunk<CR>:Gitsigns preview_hunk<CR>")
 map("n", "<C-x>", ":Gitsigns reset_hunk<CR>")
 
 -- Buffers
-map("n", "<C-w>", ":bd<CR>") -- Close
+map("n", ",", "<C-w>w") -- Cycle panes
+map("n", "<C-w>", ":bd<CR>", { nowait = true }) -- Close
 map("n", "<C-k>", ":bnext<CR>") -- Navigation
 map("n", "<C-j>", ":bprev<CR>")
 map("n", "<leader>k", "<cmd>lnext<CR>zz")
 map("n", "<leader>j", "<cmd>lprev<CR>zz")
-
-function to_snake_case(input)
-  return string.lower(
-    string.gsub(
-      string.gsub(
-        string.gsub(input, "[A-Z]+", function(match)
-          return #match > 1 and match or "_" .. string.lower(match)
-        end),
-        "[%W_]+",
-        "_"
-      ),
-      "^_",
-      ""
-    )
-  )
-end
-
-function snake_case_selection()
-  local cursor = vim.api.nvim_win_get_cursor(0)
-  local selected_text = vim.fn.getline("'<,'>")
-  local snake_case_text = to_snake_case(selected_text)
-  vim.fn.setline("'<", snake_case_text)
-  vim.api.nvim_win_set_cursor(0, cursor)
-end
-
--- Casing
-map('x', '<leader>sc', ":lua snake_case_selection()<CR>")
 
 -- Format
 map("n", "<leader>f", vim.lsp.buf.format)
