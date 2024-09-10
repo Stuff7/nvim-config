@@ -26,6 +26,7 @@ return require("packer").startup(function(use)
   use { "Wansmer/treesj", requires = { "nvim-treesitter/nvim-treesitter" } } -- Toggle blocks inline/expanded
 
   -- LSP
+  use "mfussenegger/nvim-lint"
   use {
     "VonHeikemen/lsp-zero.nvim",
     branch = "v3.x",

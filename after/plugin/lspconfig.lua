@@ -41,3 +41,14 @@ require'lspconfig'.volar.setup{
     new_config.init_options.typescript.tsdk = get_typescript_server_path(new_root_dir)
   end,
 }
+
+-- nvim-lint
+require('lint').linters_by_ft = {
+  css = {'stylelint',}
+}
+
+vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter", "InsertLeave", "BufModifiedSet" }, {
+  callback = function()
+    require("lint").try_lint()
+  end,
+})
