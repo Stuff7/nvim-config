@@ -36,10 +36,20 @@ local function get_typescript_server_path(root_dir)
   end
 end
 
-require'lspconfig'.volar.setup{
+lspconfig.volar.setup{
   on_new_config = function(new_config, new_root_dir)
     new_config.init_options.typescript.tsdk = get_typescript_server_path(new_root_dir)
   end,
+}
+
+lspconfig.cssls.setup{
+  settings = {
+    css = {
+      lint = {
+        unknownAtRules = "ignore"
+      }
+    }
+  }
 }
 
 -- nvim-lint
