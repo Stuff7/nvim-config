@@ -20,14 +20,20 @@ lsp_zero.on_attach(function(client, bufnr)
   vim.keymap.set("n", "<leader>vrr", vim.lsp.buf.references, opts)
   vim.keymap.set("n", "<leader>vrn", vim.lsp.buf.rename, opts)
   vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, opts)
-  vim.cmd [[autocmd BufWritePre *.{c,cpp,h,hpp,js,ts,jsx,tsx,go} lua vim.lsp.buf.format()]]
-  vim.cmd [[autocmd BufWritePre *.{css,scss,sass,less} :normal! m`gg=G``]]
-  vim.cmd [[
-    autocmd BufWritePre *.{js,ts,jsx,tsx,cjs,vue} lua if vim.fn.exists(':EslintFixAll') ~= 0 then vim.cmd('EslintFixAll') end
-  ]]
 end)
 
 vim.cmd [[au! BufRead,BufNewFile *.vert,*.frag,*.comp,*.rchit,*.rmiss,*.rahit set filetype=glsl]]
+vim.cmd [[autocmd BufWritePre *.{c,cpp,h,hpp,go} lua vim.lsp.buf.format()]]
+vim.cmd [[autocmd BufWritePre *.{css,scss,sass,less} :normal! m`gg=G``]]
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = {"*.js", "*.ts", "*.jsx", "*.tsx", "*.cjs", "*.vue"},
+  callback = function()
+    if vim.fn.exists(':EslintFixAll') ~= 0 then
+      vim.cmd('EslintFixAll')
+    end
+    vim.lsp.buf.format()
+  end
+})
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
