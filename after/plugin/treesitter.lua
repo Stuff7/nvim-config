@@ -13,6 +13,8 @@ require'nvim-treesitter.configs'.setup {
     enable = true,
     additional_vim_regex_highlighting = false,
   },
+
+  custom_captures = {["plain_value"] = "css"}
 }
 
 require('Comment').setup()
