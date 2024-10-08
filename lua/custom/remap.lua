@@ -96,8 +96,8 @@ map("n", "<C-y>", "3<C-y>")
 map("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 map({"n", "x", "o"}, "f", "<Plug>(leap-forward-to)")
 map({"n", "x", "o"}, "F", "<Plug>(leap-backward-to)")
-map("n", "<C-Up>", ":Gitsigns next_hunk<CR>:Gitsigns preview_hunk<CR>")
-map("n", "<C-Down>", ":Gitsigns prev_hunk<CR>:Gitsigns preview_hunk<CR>")
+map("n", "<C-Down>", ":Gitsigns next_hunk<CR>:Gitsigns preview_hunk<CR>")
+map("n", "<C-Up>", ":Gitsigns prev_hunk<CR>:Gitsigns preview_hunk<CR>")
 map("n", "<C-x>", ":Gitsigns reset_hunk<CR>")
 
 -- Buffers
