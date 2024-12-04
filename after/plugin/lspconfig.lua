@@ -52,6 +52,16 @@ lspconfig.cssls.setup{
   }
 }
 
+lspconfig.clangd.setup {
+  cmd = {
+    "clangd",
+    "--background-index",
+    "--compile-commands-dir=" .. vim.fn.getcwd() .. "/cmake_build",
+    "--clang-tidy",
+    "--clang-tidy-checks=*",
+  }
+}
+
 -- nvim-lint
 require('lint').linters_by_ft = {
   css = {'stylelint',}
