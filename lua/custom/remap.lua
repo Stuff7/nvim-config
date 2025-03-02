@@ -20,6 +20,7 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.list = true
 vim.opt.linebreak = true
+
 vim.opt.listchars = {
   eol = '↵',
   trail = '•',
@@ -29,6 +30,30 @@ vim.opt.listchars = {
   precedes = '«',
   space = '·'
 }
+
+vim.opt.guicursor="n:blinkon5-Cursor,i:blinkon5-ver100-Cursor,v:block-Cursor,c:blinkon5-Cursor,r:hor25-Cursor"
+
+vim.api.nvim_create_autocmd({ "ModeChanged" }, {
+  pattern = "*",
+  callback = function()
+    local mode = vim.fn.mode()
+    local colors = {
+      n =       { bg = "lime",       fg = "black" },
+      i =       { bg = "yellow",     fg = "black" },
+      v =       { bg = "cyan",       fg = "black" },
+      V =       { bg = "lightblue",  fg = "black" },
+      ["\22"] = { bg = "skyblue",    fg = "black" }, -- Ctrl-V
+      c =       { bg = "pink",       fg = "black" },
+      r =       { bg = "lightcoral", fg = "black" },
+      R =       { bg = "hotpink",    fg = "black" },
+    }
+    local hl = colors[mode] or colors.n
+    vim.api.nvim_set_hl(0, "Cursor", hl)
+  end,
+})
+
+-- Fix buggy grey highlight for function signature autocomplete
+vim.api.nvim_win_set_option(0, "winhighlight", "SnippetTabstop:None")
 
 function map(mode, lhs, rhs, opts)
   local options = { noremap = true }
@@ -50,6 +75,10 @@ map("n", "J", "mzJ`z")
 -- Keep cursor in the middle when half page jumping
 map("n", "<C-d>", "<C-d>zz")
 map("n", "<C-u>", "<C-u>zz")
+map("n", "<C-e>", "3<C-e>3j")
+map("n", "<C-y>", "3<C-y>3k")
+map("n", "}", "}zz")
+map("n", "{", "{zz")
 
 -- Keep cursor in the middle while searching
 map("n", "n", "nzzzv")
@@ -75,11 +104,11 @@ map("v", "<leader>ss", [[y:%s///g<Left><Left>]])
 
 -- Insert mode mappings
 map("i", "<C-c>", "<Esc>") -- Switch to normal mode
-map("i", "<C-z>", "<C-O>u") -- Undo last change
-map("i", "<C-y>", "<C-O><C-r>") -- Redo last change
+map("i", "<C-z>", "<C-o>u") -- Undo last change
+map("i", "<C-r>", "<C-o>:redo<CR>") -- Redo last change
 map("i", "<C-H>", "<C-w>") -- Delete word before cursor (Ctrl-Backspace)
-map("i", "<C-d>", "<Esc><Right>dwi") -- Delete word in front
-map("i", "<C-s>", "<Esc>:w<CR>i<Right>") -- Save changes and stay in insert mode
+map("i", "<C-d>", '<C-o>"_dw') -- Delete word in front
+map("i", "<C-s>", "<C-o>:w<CR>") -- Save changes and stay in insert mode
 
 -- Save
 map("n", "<C-s>", ":w<CR>")
@@ -89,8 +118,6 @@ map("n", "<C-a>", "ggVG")
 map("n", "<leader>o", ":normal o<CR>")
 map("n", "<leader>O", ":normal O<CR>")
 map("n", "<BS>", "daw")
-map("n", "<C-e>", "3<C-e>")
-map("n", "<C-y>", "3<C-y>")
 
 -- Motions (leap.nvim)
 map("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])

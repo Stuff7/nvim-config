@@ -76,3 +76,11 @@ vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter", "InsertLeave", "BufMod
     require("lint").try_lint()
   end,
 })
+
+lspconfig.zls.setup {
+  cmd = {
+    "zls",
+    "--config-path",
+    "~/.config/zls.json",
+  }
+}

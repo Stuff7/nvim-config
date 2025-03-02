@@ -16,10 +16,20 @@ require("bufferline").setup({
 })
 
 -- File Explorer
-require("nvim-tree").setup({
+local nvim_tree = require("nvim-tree")
+
+nvim_tree.setup({
   diagnostics = {
     enable = true,
   }
+})
+
+vim.api.nvim_create_autocmd("BufEnter", {
+  callback = function()
+    if vim.bo.filetype ~= "NvimTree" then
+      vim.cmd("NvimTreeClose")
+    end
+  end,
 })
 
 -- Colorscheme
