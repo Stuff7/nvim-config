@@ -46,16 +46,6 @@ lspconfig.volar.setup{
   end,
 }
 
-lspconfig.cssls.setup{
-  settings = {
-    css = {
-      lint = {
-        unknownAtRules = "ignore"
-      }
-    }
-  }
-}
-
 lspconfig.clangd.setup {
   cmd = {
     "clangd",
@@ -69,17 +59,6 @@ lspconfig.clangd.setup {
     "--header-insertion=iwyu",
   }
 }
-
--- nvim-lint
-require('lint').linters_by_ft = {
-  css = {'stylelint',}
-}
-
-vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter", "InsertLeave", "BufModifiedSet" }, {
-  callback = function()
-    require("lint").try_lint()
-  end,
-})
 
 lspconfig.zls.setup {
   cmd = {
