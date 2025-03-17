@@ -23,17 +23,7 @@ lsp_zero.on_attach(function(client, bufnr)
 end)
 
 vim.cmd [[au! BufRead,BufNewFile *.vert,*.frag,*.comp,*.rchit,*.rmiss,*.rahit set filetype=glsl]]
-vim.cmd [[autocmd BufWritePre *.{c,cpp,h,hpp,go,css} lua vim.lsp.buf.format()]]
-
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = {"*.js", "*.ts", "*.jsx", "*.tsx", "*.cjs", "*.vue"},
-  callback = function()
-    if vim.fn.exists(':EslintFixAll') ~= 0 then
-      vim.cmd('EslintFixAll')
-    end
-    vim.lsp.buf.format()
-  end
-})
+vim.cmd [[autocmd BufWritePre *.{c,cpp,h,hpp,go,css,astro,css,graphql,js,jsx,json,jsonc,svelte,ts,tsx,vue} lua vim.lsp.buf.format()]]
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
