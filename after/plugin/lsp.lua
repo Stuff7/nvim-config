@@ -23,7 +23,28 @@ lsp_zero.on_attach(function(client, bufnr)
 end)
 
 vim.cmd [[au! BufRead,BufNewFile *.vert,*.frag,*.comp,*.rchit,*.rmiss,*.rahit set filetype=glsl]]
-vim.cmd [[autocmd BufWritePre *.{c,cpp,h,hpp,go,css,astro,css,graphql,js,jsx,json,jsonc,svelte,ts,tsx,vue} lua vim.lsp.buf.format()]]
+vim.cmd [[autocmd BufWritePre *.{c,cpp,h,hpp,go} lua vim.lsp.buf.format()]]
+
+vim.api.nvim_create_autocmd("BufWritePost", {
+  pattern = {
+    "*.css",
+    "*.astro",
+    "*.graphql",
+    "*.js",
+    "*.ts",
+    "*.jsx",
+    "*.tsx",
+    "*.json",
+    "*.jsonc",
+    "*.svelte",
+    "*.cjs",
+    "*.vue",
+  },
+  callback = function()
+    local file = vim.fn.expand("%:p")
+    vim.cmd("silent !~/.local/share/nvim/mason/bin/biome format --write --indent-style space " .. vim.fn.shellescape(file))
+  end
+})
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
