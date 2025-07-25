@@ -23,7 +23,7 @@ lsp_zero.on_attach(function(client, bufnr)
 end)
 
 vim.cmd [[au! BufRead,BufNewFile *.vert,*.frag,*.comp,*.rchit,*.rmiss,*.rahit set filetype=glsl]]
-vim.cmd [[autocmd BufWritePre *.{c,cpp,h,hpp,go} lua vim.lsp.buf.format()]]
+vim.cmd [[autocmd BufWritePre *.{c,cpp,h,hpp,go,zig,svelte} lua vim.lsp.buf.format()]]
 
 vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = {
@@ -36,7 +36,7 @@ vim.api.nvim_create_autocmd("BufWritePost", {
     "*.tsx",
     "*.json",
     "*.jsonc",
-    "*.svelte",
+    -- "*.svelte",
     "*.cjs",
     "*.vue",
   },

@@ -37,7 +37,7 @@ local function get_typescript_server_path(root_dir)
 end
 
 lspconfig.biome.setup{
-  root_dir = util.root_pattern("package.json"),
+  -- root_dir = util.root_pattern("package.json"),
 }
 
 lspconfig.volar.setup{
