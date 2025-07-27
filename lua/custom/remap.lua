@@ -1,3 +1,4 @@
+vim.g.user_emmet_leader_key = '<C-y>'
 vim.g.mapleader = " "
 vim.g.rust_recommended_style = 0
 vim.g.netrw_banner = 0
@@ -75,8 +76,6 @@ map("n", "J", "mzJ`z")
 -- Keep cursor in the middle when half page jumping
 map("n", "<C-d>",    "<C-d>zz")
 map("n", "<C-u>",    "<C-u>zz")
-map("n", "<C-e>",    "3<C-e>3j")
-map("n", "<C-y>",    "3<C-y>3k")
 map("n", "<S-Down>", "4<C-e>4j")
 map("n", "<S-Up>",   "4<C-y>4k")
 map("n", "}",        "}zz")

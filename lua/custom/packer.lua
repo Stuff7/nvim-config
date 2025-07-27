@@ -17,6 +17,7 @@ return require("packer").startup(function(use)
   }
 
   -- Code
+  use 'mattn/emmet-vim' -- HTML snippets
   use "numToStr/Comment.nvim" -- Toggle selection into comment with gc
   use "rust-lang/rust.vim"
   use "lewis6991/gitsigns.nvim" -- Git gutters
