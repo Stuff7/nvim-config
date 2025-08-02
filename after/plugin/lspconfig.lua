@@ -40,11 +40,9 @@ lspconfig.biome.setup{
   -- root_dir = util.root_pattern("package.json"),
 }
 
-lspconfig.volar.setup{
-  on_new_config = function(new_config, new_root_dir)
-    new_config.init_options.typescript.tsdk = get_typescript_server_path(new_root_dir)
-  end,
-}
+lspconfig.ts_ls.setup{}
+
+lspconfig.svelte.setup{}
 
 lspconfig.clangd.setup {
   cmd = {
@@ -61,9 +59,10 @@ lspconfig.clangd.setup {
 }
 
 lspconfig.zls.setup {
-  cmd = {
-    "zls",
-    "--config-path",
-    "~/.config/zls.json",
+  settings = {
+    zls = {
+      enable_build_on_save = true,
+      semantic_tokens = "partial",
+    }
   }
 }

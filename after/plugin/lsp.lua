@@ -48,14 +48,11 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
-  ensure_installed = {'rust_analyzer'},
-  handlers = {
-    lsp_zero.default_setup,
-    lua_ls = function()
-      local lua_opts = lsp_zero.nvim_lua_ls()
-      require('lspconfig').lua_ls.setup(lua_opts)
-    end,
-  }
+  automatic_installation = false,
+  automatic_setup = false,
+  automatic_enable = false,
+  ensure_installed = {},
+  handlers = nil
 })
 
 local cmp = require('cmp')
