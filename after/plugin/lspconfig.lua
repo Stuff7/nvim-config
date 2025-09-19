@@ -13,8 +13,9 @@ lspconfig.rust_analyzer.setup {
 }
 vim.g.rustfmt_autosave = 1
 
+local home_dir = os.getenv("HOME")
+
 local function get_typescript_server_path(root_dir)
-  local home_dir = os.getenv("HOME")
   if not home_dir then
     error("HOME environment variable is not set.")
   end
@@ -36,9 +37,9 @@ local function get_typescript_server_path(root_dir)
   end
 end
 
-lspconfig.biome.setup{
+-- lspconfig.biome.setup{
   -- root_dir = util.root_pattern("package.json"),
-}
+-- }
 
 lspconfig.ts_ls.setup{}
 
@@ -66,3 +67,24 @@ lspconfig.zls.setup {
     }
   }
 }
+
+local configs = require('lspconfig.configs')
+
+if not configs.simple_text_lsp then
+  configs.simple_text_lsp = {
+    default_config = {
+      cmd = { util.path.join(home_dir, 'dev/zig/ziglsp/zig-out/bin/ziglsp-dbg') },
+      filetypes = { 'text', 'txt' },
+
+      root_dir = function(fname)
+        return vim.fs.dirname(vim.fs.find('.git', { path = startpath, upward = true })[1]) or vim.fn.getcwd()
+      end,
+
+      settings = {},
+      init_options = {},
+      capabilities = vim.lsp.protocol.make_client_capabilities(),
+    },
+  }
+end
+
+lspconfig.simple_text_lsp.setup({})
