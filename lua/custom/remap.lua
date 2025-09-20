@@ -21,6 +21,7 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.list = true
 vim.opt.linebreak = true
+vim.opt.winborder = "rounded"
 
 vim.opt.listchars = {
   eol = '↵',
