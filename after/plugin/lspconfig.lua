@@ -1,7 +1,24 @@
 local lspconfig = require("lspconfig")
 local util = require("lspconfig/util")
 
+local on_attach = function(client, bufnr)
+  local opts = {buffer = bufnr, remap = false}
+
+  vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = true })
+  vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+  vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+  vim.keymap.set("n", "<leader>vws", vim.lsp.buf.workspace_symbol, opts)
+  vim.keymap.set("n", "<leader>vd", vim.diagnostic.open_float, opts)
+  vim.keymap.set("n", "[d", vim.diagnostic.goto_next, opts)
+  vim.keymap.set("n", "]d", vim.diagnostic.goto_prev, opts)
+  vim.keymap.set("n", "<leader>vca", vim.lsp.buf.code_action, opts)
+  vim.keymap.set("n", "<leader>vrr", vim.lsp.buf.references, opts)
+  vim.keymap.set("n", "<leader>vrn", vim.lsp.buf.rename, opts)
+  vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, opts)
+end
+
 lspconfig.rust_analyzer.setup {
+  on_attach = on_attach,
   root_dir = util.root_pattern("Cargo.toml"),
   settings = {
     ["rust-analyzer"] = {
@@ -37,15 +54,36 @@ local function get_typescript_server_path(root_dir)
   end
 end
 
--- lspconfig.biome.setup{
-  -- root_dir = util.root_pattern("package.json"),
+lspconfig.ts_ls.setup{
+  on_attach = on_attach,
+}
+
+-- lspconfig.lua_ls.setup{
+--   on_attach = on_attach,
+--   settings = {
+--     Lua = {
+--       diagnostics = {
+--         globals = { "vim" },  -- tell the server "vim is a known global"
+--       },
+--       runtime = {
+--         version = "LuaJIT",  -- Neovim uses LuaJIT
+--       },
+--       workspace = {
+--         library = vim.api.nvim_get_runtime_file("", true),  -- include Neovim runtime files
+--       },
+--       telemetry = {
+--         enable = false,  -- optional, disables telemetry
+--       },
+--     },
+--   },
 -- }
 
-lspconfig.ts_ls.setup{}
-
-lspconfig.svelte.setup{}
+lspconfig.svelte.setup{
+  on_attach = on_attach,
+}
 
 lspconfig.clangd.setup {
+  on_attach = on_attach,
   cmd = {
     "clangd",
     "--background-index",
@@ -60,6 +98,7 @@ lspconfig.clangd.setup {
 }
 
 lspconfig.zls.setup {
+  on_attach = on_attach,
   settings = {
     zls = {
       enable_build_on_save = true,
@@ -80,6 +119,7 @@ if not configs.simple_text_lsp then
         return vim.fs.dirname(vim.fs.find('.git', { path = startpath, upward = true })[1]) or vim.fn.getcwd()
       end,
 
+      on_attach = on_attach,
       settings = {},
       init_options = {},
       capabilities = vim.lsp.protocol.make_client_capabilities(),
@@ -87,4 +127,6 @@ if not configs.simple_text_lsp then
   }
 end
 
-lspconfig.simple_text_lsp.setup({})
+lspconfig.simple_text_lsp.setup({
+  on_attach = on_attach,
+})

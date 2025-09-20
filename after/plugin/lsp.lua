@@ -1,26 +1,7 @@
-local lsp_zero = require('lsp-zero')
-
-lsp_zero.set_sign_icons({
-  error = "",
-  warn = "",
-  hint = "",
-  info = ""
-})
-
-lsp_zero.on_attach(function(client, bufnr)
-  local opts = {buffer = bufnr, remap = false}
-
-  vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-  vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-  vim.keymap.set("n", "<leader>vws", vim.lsp.buf.workspace_symbol, opts)
-  vim.keymap.set("n", "<leader>vd", vim.diagnostic.open_float, opts)
-  vim.keymap.set("n", "[d", vim.diagnostic.goto_next, opts)
-  vim.keymap.set("n", "]d", vim.diagnostic.goto_prev, opts)
-  vim.keymap.set("n", "<leader>vca", vim.lsp.buf.code_action, opts)
-  vim.keymap.set("n", "<leader>vrr", vim.lsp.buf.references, opts)
-  vim.keymap.set("n", "<leader>vrn", vim.lsp.buf.rename, opts)
-  vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, opts)
-end)
+vim.fn.sign_define("DiagnosticSignError", {text="", texthl="DiagnosticSignError"})
+vim.fn.sign_define("DiagnosticSignWarn",  {text="", texthl="DiagnosticSignWarn"})
+vim.fn.sign_define("DiagnosticSignHint",  {text="", texthl="DiagnosticSignHint"})
+vim.fn.sign_define("DiagnosticSignInfo",  {text="", texthl="DiagnosticSignInfo"})
 
 vim.cmd [[au! BufRead,BufNewFile *.vert,*.frag,*.comp,*.rchit,*.rmiss,*.rahit set filetype=glsl]]
 vim.cmd [[autocmd BufWritePre *.{c,cpp,h,hpp,go,zig,svelte} lua vim.lsp.buf.format()]]
@@ -47,16 +28,7 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 })
 
 require('mason').setup({})
-require('mason-lspconfig').setup({
-  automatic_installation = false,
-  automatic_setup = false,
-  automatic_enable = false,
-  ensure_installed = {},
-  handlers = nil
-})
 
-local cmp = require('cmp')
-local cmp_select = {behavior = cmp.SelectBehavior.Select}
 local kind_icons = {
   Text = "",
   Method = "󰆧",
@@ -85,33 +57,74 @@ local kind_icons = {
   TypeParameter = "󰅲",
 }
 
-cmp.setup({
-  sources = {
-    {name = "path"},
-    {name = "nvim_lsp"},
-    {name = "nvim_lua"},
-  },
-  formatting = {
-    format = function(entry, vim_item)
-      vim_item.kind = kind_icons[vim_item.kind] .. " " .. vim_item.kind
-      vim_item.menu = ({
-        buffer = "[Buf]",
-        nvim_lsp = "[LSP]",
-        luasnip = "[Snip]",
-        nvim_lua = "[Nvim]",
-        latex_symbols = "[LaTeX]",
-      })[entry.source.name]
-      return vim_item
-    end,
-    fields = { "abbr", "kind" }
-  },
-  mapping = cmp.mapping.preset.insert({
-    ["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
-    ["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
-    ["<Tab>"] = cmp.mapping.confirm({ select = true }),
-    ["<C-f>"] = cmp.mapping.complete(),
-  }),
-})
+-- Set completion options
+vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
+
+-- Override the completion handler
+local orig_handler = vim.lsp.handlers['textDocument/completion']
+vim.lsp.handlers['textDocument/completion'] = function(err, result, ctx, config)
+  if result and result.items then
+    for _, item in ipairs(result.items) do
+      if item.kind then
+        local kind_name = vim.lsp.protocol.CompletionItemKind[item.kind] or "Unknown"
+        -- Here's where we actually use the formatting
+        item.kind = (kind_icons[kind_name] or "") .. " " .. kind_name
+        
+        -- Add menu labels like nvim-cmp does
+        if not item.detail then
+          item.detail = "[LSP]"
+        end
+      end
+    end
+  end
+  
+  return orig_handler(err, result, ctx, config)
+end
+
+function map(mode, lhs, rhs, opts)
+  local options = { expr = true, silent = false, noremap = true }
+  if opts then
+    options = vim.tbl_extend("force", options, opts)
+  end
+  vim.keymap.set(mode, lhs, rhs, options)
+end
+
+vim.keymap.set('i', '<C-f>', '<C-x><C-o>')
+
+map('i', '<Left>', function()
+  if vim.fn.pumvisible() ~= 0 then return '<Left><C-x><C-o>' end
+  return '<Left>'
+end)
+
+map('i', '<Right>', function()
+  if vim.fn.pumvisible() ~= 0 then return '<Right><C-x><C-o>' end
+  return '<Right>'
+end)
+
+map('i', '<C-left>', function()
+  if vim.fn.pumvisible() ~= 0 then return '<C-left><C-x><C-o>' end
+  return '<C-left>'
+end)
+
+map('i', '<C-right>', function()
+  if vim.fn.pumvisible() ~= 0 then return '<C-right><C-x><C-o>' end
+  return '<C-right>'
+end)
+
+map('i', '<Down>', function()
+  if vim.fn.pumvisible() ~= 0 then return '<C-n>' end
+  return '<Down>'
+end)
+
+map('i', '<Up>', function()
+  if vim.fn.pumvisible() ~= 0 then return '<C-p>' end
+  return '<Up>'
+end)
+
+map('i', '<Esc>', function()
+  if vim.fn.pumvisible() ~= 0 then return '<C-e>' end
+  return '<Esc>'
+end)
 
 vim.diagnostic.config({
   virtual_text = true

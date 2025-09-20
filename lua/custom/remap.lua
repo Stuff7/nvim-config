@@ -5,6 +5,7 @@ vim.g.netrw_banner = 0
 vim.g.netrw_liststyle = 3 -- tree style view
 vim.g.netrw_browse_split = 4
 vim.g.netrw_winsize = 20
+vim.o.signcolumn = "yes"
 vim.opt.title = true
 vim.opt.nu = true
 vim.opt.relativenumber = true
@@ -65,8 +66,6 @@ function map(mode, lhs, rhs, opts)
   vim.keymap.set(mode, lhs, rhs, options)
 end
 
-map("n", "<C-b>", ":NvimTreeToggle<CR>")
-
 -- Move selection up and down
 map("v", "J", ":m '>+1<CR>gv=gv")
 map("v", "K", ":m '<-2<CR>gv=gv")
@@ -99,13 +98,10 @@ map("n", "<Tab>", ">><Right><Right>")
 map("n", "<S-Tab>", "<<<Left><Left>")
 map("v", "<Tab>", ">gv")
 map("v", "<S-Tab>", "<gv")
-map("i", "<C-[>", "<C-O><<<Left><Left>")
-map("i", "<C-]>", "<C-O>>><Right><Right>")
 
 map("v", "<leader>ss", [[y:%s///g<Left><Left>]])
 
 -- Insert mode mappings
-map("i", "<C-c>", "<Esc>") -- Switch to normal mode
 map("i", "<C-z>", "<C-o>u") -- Undo last change
 map("i", "<C-r>", "<C-o>:redo<CR>") -- Redo last change
 map("i", "<C-H>", "<C-w>") -- Delete word before cursor (Ctrl-Backspace)

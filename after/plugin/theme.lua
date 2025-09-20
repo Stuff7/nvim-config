@@ -2,42 +2,16 @@
 require("lualine").setup()
 
 -- Tabs
-require("bufferline").setup({
-  options = {
-    offsets = {
-      {
-        filetype = "NvimTree",
-        text = "File Explorer",
-        text_align = "center",
-        separator = true
-      }
-    }
-  }
-})
-
--- File Explorer
-local nvim_tree = require("nvim-tree")
-
-nvim_tree.setup({
-  diagnostics = {
-    enable = true,
-  }
-})
-
-vim.api.nvim_create_autocmd("BufEnter", {
-  callback = function()
-    if vim.bo.filetype ~= "NvimTree" then
-      vim.cmd("NvimTreeClose")
-    end
-  end,
-})
+require("bufferline").setup()
 
 -- Colorscheme
 require("vscode").setup({
   transparent = true,
   italic_comments = true,
-  disable_nvimtree_bg = true,
 })
+
+require("nvim-autopairs").setup()
+
 local c = {
   blue = "#569CD6",
   blueGreen = "#4EC9B0",
