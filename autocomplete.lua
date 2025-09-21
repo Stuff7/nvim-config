@@ -168,6 +168,13 @@ local function handle_snippet_expansion(completed_item)
   end
 end
 
+local function merge_tables(t1, t2)
+  local r = {}
+  for k, v in pairs(t1) do r[k] = v end
+  for k, v in pairs(t2) do r[k] = v end
+  return r
+end
+
 -- LSP attach function
 local function on_attach(client, bufnr)
   local opts = { buffer = bufnr, remap = false }
@@ -205,11 +212,18 @@ local function on_attach(client, bufnr)
     { "n", "<leader>vca", vim.lsp.buf.code_action },
     { "n", "<leader>vrr", vim.lsp.buf.references },
     { "n", "<leader>vrn", vim.lsp.buf.rename },
-    { "i", "<C-h>",       vim.lsp.buf.signature_help },
+    { "i", "<C-h>", function()
+      vim.lsp.buf.signature_help()
+      if vim.fn.pumvisible() ~= 0 then state.has_selection = false end
+      return '<C-e>'
+    end, { expr = true },
+    },
   }
 
   for _, keymap in ipairs(keymaps) do
-    vim.keymap.set(keymap[1], keymap[2], keymap[3], opts)
+    local options = opts
+    if keymap[4] ~= nil then options = merge_tables(opts, keymap[4]) end
+    vim.keymap.set(keymap[1], keymap[2], keymap[3], options)
   end
 end
 
