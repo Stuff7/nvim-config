@@ -88,13 +88,28 @@ map("n", "<leader>o", ":normal o<CR>")
 map("n", "<leader>O", ":normal O<CR>")
 map("n", "<BS>", "daw")
 
--- Motions (leap.nvim)
-map("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
-map({ "n", "x", "o" }, "f", "<Plug>(leap-forward-to)")
-map({ "n", "x", "o" }, "F", "<Plug>(leap-backward-to)")
+-- Gitsigns hunks
 map("n", "<C-Down>", ":Gitsigns next_hunk<CR>:Gitsigns preview_hunk_inline<CR>zz")
 map("n", "<C-Up>", ":Gitsigns prev_hunk<CR>:Gitsigns preview_hunk_inline<CR>zz")
 map("n", "<C-x>", ":Gitsigns reset_hunk<CR>")
+map("n", "<leader>hp", function()
+  require("gitsigns").preview_hunk()
+
+  -- Find the float that just opened and focus it
+  vim.defer_fn(function()
+    local cur = vim.api.nvim_get_current_win()
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+      if win ~= cur then
+        local cfg = vim.api.nvim_win_get_config(win)
+        if cfg.relative ~= "" then
+          vim.api.nvim_set_current_win(win)
+          return
+        end
+      end
+    end
+  end, 10) -- tiny delay so gitsigns actually creates the window
+end, { desc = "Preview hunk and focus it" })
+
 
 -- Buffers
 map("n", ",", "<C-w>w")                         -- Cycle panes

@@ -39,6 +39,9 @@ local autocomplete_icons = {
 local completion_items = {}
 local current_completion_start = 0
 
+-- Track if user has made a selection in the completion menu
+local has_selection = false
+
 local on_attach = function(client, bufnr)
   local opts = { buffer = bufnr, remap = false }
 
@@ -82,6 +85,7 @@ local map = require("remap").map
 -- Trigger completion
 map('i', '<C-f>', function()
   current_completion_start = vim.fn.col('.') - 1
+  has_selection = false
   return '<C-x><C-o>'
 end, { expr = true })
 
@@ -96,11 +100,15 @@ for _, key in ipairs({ '<Left>', '<Right>', '<C-left>', '<C-right>' }) do
   map('i', key, move_with_completion(key), { expr = true })
 end
 
--- Tab handling with snippet expansion
+-- Tab handling with snippet expansion and auto-select first item
 map('i', '<Tab>', function()
   if vim.fn.pumvisible() ~= 0 then
-    -- Accept the completion first
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-y>', true, true, true), 'n', false)
+    if has_selection then
+      vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-y>', true, true, true), 'n', false)
+    else
+      vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-n><C-y>', true, true, true), 'n', false)
+    end
+    has_selection = false
 
     -- Schedule the snippet expansion to happen after completion
     vim.schedule(function()
@@ -154,7 +162,11 @@ map('i', '<S-Tab>', function()
 end, { expr = true })
 
 map('i', '<Esc>', function()
-  return vim.fn.pumvisible() ~= 0 and '<C-e><Esc>' or '<Esc>'
+  if vim.fn.pumvisible() ~= 0 then
+    has_selection = false
+    return '<C-e><Esc>'
+  end
+  return '<Esc>'
 end, { expr = true })
 
 -- Quick fix
@@ -216,6 +228,7 @@ end
 map('i', '<Down>', function()
   if vim.fn.pumvisible() ~= 0 then
     -- Move down in completion menu and trigger hover
+    has_selection = true
     vim.schedule(function()
       show_hover()
     end)
@@ -227,6 +240,7 @@ end, { expr = true })
 map('i', '<Up>', function()
   if vim.fn.pumvisible() ~= 0 then
     -- Move up in completion menu and trigger hover
+    has_selection = true
     vim.schedule(function()
       show_hover()
     end)
