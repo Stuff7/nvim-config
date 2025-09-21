@@ -1,6 +1,4 @@
-# NEOVIM CONFIG
-
-This is a custom Neovim (nvim) configuration designed for personal use.
+# Neovim Config
 
 ## Prerequisites
 
@@ -10,18 +8,3 @@ This is a custom Neovim (nvim) configuration designed for personal use.
 ## Terminal Setup
 
 - Ensure you have a [NerdFont](https://www.nerdfonts.com/font-downloads) installed for an enhanced visual experience.
-
-## Useful Tips
-
-- Consider creating an [.editorconfig](https://editorconfig.org/) file to standardize coding style across projects.
-- For Rust development, create a `rustfmt.toml` in the project's root directory to configure settings such as tab size.
-
-## Cheatsheet
-
-### [Wansmer/treesj](https://github.com/kylechui/nvim-surround)
-
-- Toggle Block = &lt;leader&gt;m
-
-### Native neovim
-
-- Uppercase Selection = &lt;Shift&gt;U

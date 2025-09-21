@@ -2,42 +2,16 @@
 require("lualine").setup()
 
 -- Tabs
-require("bufferline").setup({
-  options = {
-    offsets = {
-      {
-        filetype = "NvimTree",
-        text = "File Explorer",
-        text_align = "center",
-        separator = true
-      }
-    }
-  }
-})
-
--- File Explorer
-local nvim_tree = require("nvim-tree")
-
-nvim_tree.setup({
-  diagnostics = {
-    enable = true,
-  }
-})
-
-vim.api.nvim_create_autocmd("BufEnter", {
-  callback = function()
-    if vim.bo.filetype ~= "NvimTree" then
-      vim.cmd("NvimTreeClose")
-    end
-  end,
-})
+require("bufferline").setup()
 
 -- Colorscheme
 require("vscode").setup({
   transparent = true,
   italic_comments = true,
-  disable_nvimtree_bg = true,
 })
+
+require("nvim-autopairs").setup()
+
 local c = {
   blue = "#569CD6",
   blueGreen = "#4EC9B0",
@@ -60,7 +34,7 @@ local c = {
 }
 
 vim.api.nvim_create_autocmd('ColorScheme', {
-  callback = function ()
+  callback = function()
     -- Rust
     vim.api.nvim_set_hl(0, "@lsp.type.comment", { fg = c.grey })
     vim.api.nvim_set_hl(0, "@comment", { fg = c.grey })
@@ -109,3 +83,49 @@ require("nvim-surround").setup() -- ys<delimeter> (surround), ds<delimeter> (del
 require("treesj").setup({
   use_default_keymaps = false,
 })
+
+-- Git gutters
+vim.diagnostic.config({
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = " ",
+      [vim.diagnostic.severity.WARN] = " ",
+      [vim.diagnostic.severity.INFO] = " ",
+      [vim.diagnostic.severity.HINT] = " ",
+    },
+    linehl = {
+      [vim.diagnostic.severity.ERROR] = "Error",
+      [vim.diagnostic.severity.WARN] = "Warn",
+      [vim.diagnostic.severity.INFO] = "Info",
+      [vim.diagnostic.severity.HINT] = "Hint",
+    },
+  },
+})
+
+-- Format on save
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = { "*.vert", "*.frag", "*.comp", "*.rchit", "*.rmiss", "*.rahit" },
+  callback = function() vim.bo.filetype = "glsl" end
+})
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = { "*.c", "*.cpp", "*.h", "*.hpp", "*.go", "*.zig", "*.svelte", "*.lua" },
+  callback = function() vim.lsp.buf.format() end
+})
+
+vim.api.nvim_create_autocmd("BufWritePost", {
+  pattern = { "*.css", "*.astro", "*.graphql", "*.js", "*.ts", "*.jsx", "*.tsx", "*.json", "*.jsonc", "*.cjs", "*.vue" },
+  callback = function()
+    local file = vim.fn.expand("%:p")
+    vim.cmd("silent !~/.local/share/nvim/mason/bin/biome format --write --indent-style space " ..
+      vim.fn.shellescape(file))
+  end
+})
+
+require 'nvim-treesitter.configs'.setup {
+  auto_install = true,
+  highlight = { enable = true, additional_vim_regex_highlighting = false },
+  custom_captures = { ["plain_value"] = "css" }
+}
+
+require('Comment').setup()
