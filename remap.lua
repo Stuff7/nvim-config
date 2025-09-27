@@ -71,6 +71,7 @@ map("v", "<Tab>", ">gv")
 map("v", "<S-Tab>", "<gv")
 
 map("v", "<leader>ss", [[y:%s///g<Left><Left>]])
+map("n", "<leader>s", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>")
 
 -- Insert mode mappings
 map("i", "<C-z>", "<C-o>u")         -- Undo last change

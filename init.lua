@@ -20,10 +20,17 @@ vim.pack.add({
   'https://github.com/nvim-treesitter/nvim-treesitter.git',
   'https://github.com/williamboman/mason.nvim.git',
   'https://github.com/windwp/nvim-autopairs.git',
+
+  -- Autocomplete
+  'https://github.com/hrsh7th/nvim-cmp.git',
+  'https://github.com/hrsh7th/cmp-nvim-lsp.git',
+  'https://github.com/hrsh7th/cmp-buffer.git',
+  'https://github.com/L3MON4D3/LuaSnip.git',
+  'https://github.com/saadparwaiz1/cmp_luasnip.git',
 })
 
 dofile(script_dir .. "remap.lua")
-dofile(script_dir .. "autocomplete.lua")
+dofile(script_dir .. "cmp.lua")
 dofile(script_dir .. "lspconfig.lua")
 dofile(script_dir .. "theme.lua")
 
