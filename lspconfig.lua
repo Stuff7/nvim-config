@@ -101,25 +101,3 @@ lspcfg("zls", {
     }
   }
 })
-
-local home_dir = os.getenv("HOME")
-local configs = require('lspconfig.configs')
-
-if not configs.ziglsp then
-  configs.ziglsp = {
-    default_config = {
-      cmd = { util.path.join(home_dir, 'dev/zig/ziglsp/zig-out/bin/ziglsp-dbg') },
-      filetypes = { 'text', 'txt' },
-
-      root_dir = function(fname)
-        return vim.fs.dirname(vim.fs.find('.git', { path = fname, upward = true })[1]) or vim.fn.getcwd()
-      end,
-
-      settings = {},
-      init_options = {},
-      capabilities = vim.lsp.protocol.make_client_capabilities(),
-    },
-  }
-end
-
-lspcfg("ziglsp")

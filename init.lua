@@ -2,6 +2,9 @@ local script_path = debug.getinfo(1, "S").source:sub(2) -- remove the "@" prefix
 local script_dir = script_path:match("(.*/)")
 if not script_dir then script_dir = "./" end
 
+local mason_path = vim.fn.stdpath("data") .. "/mason/bin"
+vim.env.PATH = mason_path .. ":" .. vim.env.PATH
+
 package.path = script_dir .. "?.lua;" .. package.path
 
 vim.pack.add({
