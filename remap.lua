@@ -37,6 +37,8 @@ end
 
 local map = M.map
 
+map({ "n", "v", "i" }, "<C-c>", "<Esc>")
+
 -- Move selection up and down
 map("v", "J", ":m '>+1<CR>gv=gv")
 map("v", "K", ":m '<-2<CR>gv=gv")
