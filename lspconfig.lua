@@ -57,6 +57,8 @@ vim.g.rustfmt_autosave = 1
 
 lspcfg("ts_ls")
 
+lspcfg("gopls")
+
 lspcfg("lua_ls", {
   settings = {
     Lua = {
