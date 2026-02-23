@@ -55,7 +55,11 @@ lspcfg("rust_analyzer", {
 })
 vim.g.rustfmt_autosave = 1
 
-lspcfg("ts_ls")
+lspcfg("ts_ls", {
+  root_dir = util.root_pattern("package.json"),
+})
+
+lspcfg("denols")
 
 lspcfg("gopls")
 
