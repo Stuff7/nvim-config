@@ -108,9 +108,10 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   callback = function() vim.bo.filetype = "glsl" end
 })
 
+local remap = require("remap")
 vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = { "*.c", "*.cpp", "*.h", "*.hpp", "*.go", "*.zig", "*.svelte", "*.lua" },
-  callback = function() vim.lsp.buf.format() end
+  pattern = { "*.c", "*.cpp", "*.h", "*.hpp", "*.go", "*.zig", "*.svelte", "*.lua", "*.glsl" },
+  callback = remap.smart_format,
 })
 
 vim.api.nvim_create_autocmd("BufWritePost", {

@@ -35,6 +35,28 @@ function M.map(mode, lhs, rhs, opts)
   vim.keymap.set(mode, lhs, rhs, options)
 end
 
+function M.smart_format()
+  -- Check for LSP formatting capability
+  local clients = vim.lsp.get_clients({ bufnr = 0, method = "textDocument/formatting" })
+
+  if #clients > 0 then
+    vim.lsp.buf.format({ async = false })
+  else
+    -- Stable Manual Fallback
+    local view = vim.fn.winsaveview()
+
+    -- The "Undo Anchor" trick
+    vim.cmd([[
+            normal! ix
+            normal! "_x
+            undojoin
+            keepjumps lockmarks normal! ggVG=
+        ]])
+
+    vim.fn.winrestview(view)
+  end
+end
+
 local map = M.map
 
 map({ "n", "v", "i" }, "<C-c>", "<Esc>")
@@ -123,8 +145,7 @@ map("n", "<leader>k", "<cmd>lnext<CR>zz")
 map("n", "<leader>j", "<cmd>lprev<CR>zz")
 
 -- Format
-map("n", "<leader>f", vim.lsp.buf.format)
-map("n", "<leader>f", "ggVG=<C-c>")
+vim.keymap.set("n", "<leader>f", M.smart_format, { desc = "Format buffer (Stable cursor/scroll/undo)" })
 map("n", "<leader>m", ":TSJToggle<CR>")
 
 vim.opt.listchars = {

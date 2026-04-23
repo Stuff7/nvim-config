@@ -83,7 +83,15 @@ lspcfg("lua_ls", {
   },
 })
 
-lspcfg("svelte")
+lspcfg("svelte", {
+  settings = {
+    css = {
+      lint = {
+        unknownAtRules = "ignore"
+      }
+    }
+  }
+})
 
 lspcfg("clangd", {
   cmd = {
