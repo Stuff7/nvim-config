@@ -115,3 +115,12 @@ lspcfg("zls", {
     }
   }
 })
+
+vim.lsp.config("sokol_shdc_lsp", {
+  cmd = {
+    "/home/armando/dev/zig/sokol-shdc-lsp/zig-out/bin/sokol-shdc-lsp-dbg",
+  },
+  filetypes = { "glsl" },
+})
+
+lspcfg("sokol_shdc_lsp")
