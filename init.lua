@@ -20,7 +20,7 @@ vim.pack.add({
   'https://github.com/nvim-lualine/lualine.nvim.git',
   'https://github.com/nvim-telescope/telescope.nvim.git',
   'https://github.com/nvim-tree/nvim-web-devicons.git',
-  'https://github.com/nvim-treesitter/nvim-treesitter.git',
+  { src = 'https://github.com/Stuff7/nvim-treesitter.git', version = 'latest' },
   'https://github.com/williamboman/mason.nvim.git',
   'https://github.com/windwp/nvim-autopairs.git',
 

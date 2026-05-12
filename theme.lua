@@ -13,31 +13,42 @@ require("vscode").setup({
 require("nvim-autopairs").setup()
 
 local c = {
-  blue = "#569CD6",
-  blueGreen = "#4EC9B0",
   accentBlue = "#4FC1FE",
-  pink = "#FF8FFF",
-  lightRed = "#FF8484",
-  lightBrown = "#E29D9D",
-  orange = "#FF9547",
-  grey = "#808080",
-  purple = "#998CFF",
-  palePurple = "#C5B6C0",
+  amber300 = "#fcd34d",
+  blue = "#569CD6",
+  blue400 = "#60a5fa",
+  blueGreen = "#4EC9B0",
+  darkAquamarine = "#2FAF84",
   darkPalePurple = "#A596B9",
+  emerald400 = "#34d399",
+  green300 = "#86efac",
+  grey = "#808080",
+  indigo200 = "#c7d2fe",
+  lightBlue = "#9CDCFE",
+  lightBrown = "#E29D9D",
+  lightGreen = "#B5CEA8",
+  lightRed = "#FF8484",
+  lime300 = "#bef264",
+  mediumGreen = "#40A940",
+  orange = "#FF9547",
+  paleAquamarine = "#93CDB9",
   paleGreen = "#C0FED8",
   palePink = "#FBD1FF",
-  mediumGreen = "#40A940",
-  darkAquamarine = "#2FAF84",
-  paleAquamarine = "#93CDB9",
-  yellow = "#FFFF00",
+  palePurple = "#C5B6C0",
+  pink = "#FF8FFF",
+  pink400 = "#f472b6",
+  pink500 = "#ec4899",
+  purple = "#998CFF",
+  rose400 = "#fb7185",
   violet = "#C586C0",
+  violet300 = "#c4b5fd",
+  yellow = "#FFFF00",
 }
 
 vim.api.nvim_create_autocmd('ColorScheme', {
   callback = function()
-    -- Rust
-    vim.api.nvim_set_hl(0, "@lsp.type.comment", { fg = c.grey })
-    vim.api.nvim_set_hl(0, "@comment", { fg = c.grey })
+    vim.api.nvim_set_hl(0, "@lsp.type.comment", { fg = c.grey, italic = true })
+    vim.api.nvim_set_hl(0, "@comment", { fg = c.grey, italic = true })
     vim.api.nvim_set_hl(0, "@lsp.mod.mutable", { fg = c.purple, bold = true })
     vim.api.nvim_set_hl(0, "@lsp.mod.reference", { italic = true })
     vim.api.nvim_set_hl(0, "@lsp.typemod.deriveHelper.attribute", { fg = c.palePurple })
@@ -52,6 +63,7 @@ vim.api.nvim_create_autocmd('ColorScheme', {
     vim.api.nvim_set_hl(0, "@lsp.type.interface", { fg = c.orange, italic = true })
     vim.api.nvim_set_hl(0, "@lsp.type.struct", { fg = c.paleAquamarine })
     vim.api.nvim_set_hl(0, "@lsp.type.enum", { fg = c.lightRed })
+    vim.api.nvim_set_hl(0, "@lsp.type.namespace", { fg = c.indigo200 })
     vim.api.nvim_set_hl(0, "@lsp.type.derive", { fg = c.lightBrown })
     vim.api.nvim_set_hl(0, "@lsp.type.formatSpecifier", { fg = c.blue })
     vim.api.nvim_set_hl(0, "@lsp.type.builtinType", { fg = c.blueGreen })
@@ -63,11 +75,24 @@ vim.api.nvim_create_autocmd('ColorScheme', {
     vim.api.nvim_set_hl(0, "@lsp.mod.readonly", { fg = c.accentBlue })
     vim.api.nvim_set_hl(0, "@lsp.type.label", { fg = c.orange, italic = true })
     vim.api.nvim_set_hl(0, "@lsp.mod.static", { bold = true })
-    -- CSS
+    vim.api.nvim_set_hl(0, "@lsp.mod.global", { bold = true })
+
+    vim.api.nvim_set_hl(0, "@function.builtin", { fg = c.amber300, bold = true })
+    vim.api.nvim_set_hl(0, "@boolean", { fg = c.lightGreen, bold = true })
+    vim.api.nvim_set_hl(0, "@keyword", { fg = c.blue, bold = true })
+    vim.api.nvim_set_hl(0, "@keyword.conditional", { fg = c.violet, bold = true })
+    vim.api.nvim_set_hl(0, "@keyword.return", { fg = c.pink400, bold = true, underline = true })
+    vim.api.nvim_set_hl(0, "@keyword.import", { fg = c.violet, bold = true })
+    vim.api.nvim_set_hl(0, "@keyword.exception", { fg = c.violet, bold = true })
+    vim.api.nvim_set_hl(0, "@keyword.modifier", { fg = c.violet, bold = true })
+    vim.api.nvim_set_hl(0, "@keyword.repeat", { fg = c.rose400, bold = true })
+    vim.api.nvim_set_hl(0, "@keyword.operator", { fg = c.lightBrown, bold = true })
+    vim.api.nvim_set_hl(0, "@operator", { fg = c.lightBrown })
     vim.api.nvim_set_hl(0, "@variable.css", { fg = c.paleGreen })
     vim.api.nvim_set_hl(0, "@plain_value.css", { fg = c.yellow })
   end
 })
+
 vim.cmd.colorscheme "vscode"
 vim.cmd.syntax("enable")
 vim.cmd "filetype plugin indent on"
