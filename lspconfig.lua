@@ -21,7 +21,7 @@ local function on_attach(_, bufnr)
     { "n", "<leader>vca", vim.lsp.buf.code_action },
     { "n", "<leader>vrr", vim.lsp.buf.references },
     { "n", "<leader>vrn", vim.lsp.buf.rename },
-    { "i", "<C-h>", function()
+    { "i", "<C-BS>", function()
       vim.lsp.buf.signature_help()
     end, { expr = true, remap = true },
     },
@@ -118,7 +118,7 @@ lspcfg("zls", {
 
 vim.lsp.config("sokol_shdc_lsp", {
   cmd = {
-    "/home/armando/dev/zig/sokol-shdc-lsp/zig-out/bin/sokol-shdc-lsp-dbg",
+    "sokol-shdc-lsp",
   },
   filetypes = { "glsl" },
 })

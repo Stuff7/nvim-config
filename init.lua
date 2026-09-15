@@ -2,6 +2,9 @@ local script_path = debug.getinfo(1, "S").source:sub(2) -- remove the "@" prefix
 local script_dir = script_path:match("(.*/)")
 if not script_dir then script_dir = "./" end
 
+local level = vim.env.NVIM_LSP_LOG_LEVEL or "warn"
+vim.lsp.log.set_level(level)
+
 local mason_path = vim.fn.stdpath("data") .. "/mason/bin"
 vim.env.PATH = mason_path .. ":" .. vim.env.PATH
 

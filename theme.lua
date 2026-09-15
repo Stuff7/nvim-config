@@ -63,6 +63,7 @@ vim.api.nvim_create_autocmd('ColorScheme', {
     vim.api.nvim_set_hl(0, "@lsp.type.interface", { fg = c.orange, italic = true })
     vim.api.nvim_set_hl(0, "@lsp.type.struct", { fg = c.paleAquamarine })
     vim.api.nvim_set_hl(0, "@lsp.type.enum", { fg = c.lightRed })
+    vim.api.nvim_set_hl(0, "@lsp.type.errorTag", { fg = c.orange })
     vim.api.nvim_set_hl(0, "@lsp.type.namespace", { fg = c.indigo200 })
     vim.api.nvim_set_hl(0, "@lsp.type.derive", { fg = c.lightBrown })
     vim.api.nvim_set_hl(0, "@lsp.type.formatSpecifier", { fg = c.blue })
