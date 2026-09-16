@@ -86,22 +86,63 @@ local DIRECTION_BY_EVENT = {
   ["client_exit"] = "--- CLIENT EXIT",
 }
 
-return {
-  setup = function(log_file)
-    local output_path = vim.fn.fnamemodify(log_file, ":p")
-    vim.fn.mkdir(vim.fn.fnamemodify(output_path, ":h"), "p")
+local function write_outgoing_json(path, messages)
+  local outfile, open_err = io.open(path, "w")
+  if not outfile then
+    vim.notify("Failed to open outgoing JSON file: " .. tostring(open_err), vim.log.levels.ERROR)
+    return
+  end
+  outfile:write(vim.json.encode(messages))
+  outfile:close()
+end
 
-    local outfile, open_err = io.open(output_path, "w")
-    if not outfile then
-      vim.notify("Failed to open LSP log file: " .. tostring(open_err), vim.log.levels.ERROR)
+local active = nil
+
+return {
+  setup = function(log_file, outgoing_file)
+    local output_path = log_file and vim.fn.fnamemodify(log_file, ":p") or nil
+    local outgoing_path = outgoing_file and vim.fn.fnamemodify(outgoing_file, ":p") or nil
+
+    if not output_path and not outgoing_path then
       return
     end
 
-    outfile:write(string.format("=== LSP JSON-RPC Transport Logging Started at %s ===\n\n", timestamp()))
-    outfile:flush()
+    local session_key = output_path or ("outgoing:" .. (outgoing_path or ""))
+
+    if active then
+      if active.key == session_key then
+        return
+      end
+      if active.outfile then
+        active.outfile:close()
+      end
+      active = nil
+    end
+
+    local outfile = nil
+    if output_path then
+      vim.fn.mkdir(vim.fn.fnamemodify(output_path, ":h"), "p")
+
+      local open_err
+      outfile, open_err = io.open(output_path, "w")
+      if not outfile then
+        vim.notify("Failed to open LSP log file: " .. tostring(open_err), vim.log.levels.ERROR)
+        return
+      end
+
+      outfile:write(string.format("=== LSP JSON-RPC Transport Logging Started at %s ===\n\n", timestamp()))
+      outfile:flush()
+    end
+
+    if outgoing_path then
+      vim.fn.mkdir(vim.fn.fnamemodify(outgoing_path, ":h"), "p")
+    end
 
     local full = vim.env.LSP_LOG_FULL == "1"
     local process_arrays = full and identity or truncate_arrays
+    local outgoing_messages = {}
+
+    active = { key = session_key, outfile = outfile }
 
     vim.lsp.log.set_level("debug")
 
@@ -109,29 +150,51 @@ return {
       if level ~= "DEBUG" or type(event) ~= "string" then
         return nil
       end
+      if not active or active.key ~= session_key then
+        return nil
+      end
 
-      local direction = DIRECTION_BY_EVENT[event] or ("--- " .. event:upper())
-      local rendered = payload ~= nil and pretty_print(process_arrays(payload)) or "{}"
+      if outfile then
+        local direction = DIRECTION_BY_EVENT[event] or ("--- " .. event:upper())
+        local rendered = payload ~= nil and pretty_print(process_arrays(payload)) or "{}"
 
-      outfile:write(string.format(
-        "[%s] %s\n%s\n%s\n",
-        timestamp(), direction,
-        rendered,
-        string.rep("=", 80)
-      ))
-      outfile:flush()
+        outfile:write(string.format(
+          "[%s] %s\n%s\n%s\n",
+          timestamp(), direction,
+          rendered,
+          string.rep("=", 80)
+        ))
+        outfile:flush()
+      end
+
+      if outgoing_path and event == "rpc.send" and payload ~= nil then
+        table.insert(outgoing_messages, payload)
+        write_outgoing_json(outgoing_path, outgoing_messages)
+      end
 
       return nil
     end)
 
     vim.api.nvim_create_autocmd("VimLeavePre", {
       callback = function()
-        outfile:close()
+        vim.schedule(function()
+          if active and active.key == session_key then
+            if outfile then
+              outfile:close()
+            end
+            active = nil
+          end
+        end)
       end,
     })
 
     vim.notify(
-      string.format("LSP logging enabled: %s (%s)", output_path, full and "full" or "compact"),
+      string.format(
+        "LSP logging enabled: %s%s (%s)",
+        output_path or "(outgoing only)",
+        outgoing_path and (", " .. outgoing_path) or "",
+        full and "full" or "compact"
+      ),
       vim.log.levels.INFO
     )
   end,

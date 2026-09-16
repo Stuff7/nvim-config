@@ -40,15 +40,14 @@ dofile(script_dir .. "cmp.lua")
 dofile(script_dir .. "lspconfig.lua")
 dofile(script_dir .. "theme.lua")
 
--- Check for LSP_LOG environment variable and enable logging if present
 do
   local log_file = vim.env.LSP_LOG or os.getenv("LSP_LOG")
+  local outgoing_file = vim.env.LSP_LOG_OUTGOING or os.getenv("LSP_LOG_OUTGOING")
 
-  if log_file and log_file ~= "" then
+  if (log_file and log_file ~= "") or (outgoing_file and outgoing_file ~= "") then
     local ok, lsp_logger = pcall(require, 'lsp_logger')
     if ok and lsp_logger.setup then
-      lsp_logger.setup(log_file)
-      vim.notify("LSP logging enabled: " .. log_file, vim.log.levels.INFO)
+      lsp_logger.setup(log_file, outgoing_file)
     else
       vim.notify("Failed to load lsp_logger.lua", vim.log.levels.ERROR)
     end
